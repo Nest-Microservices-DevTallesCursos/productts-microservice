@@ -44,6 +44,15 @@ export class ProductsController {
   // @Delete(':id')
   @MessagePattern({cmd:'delete_product'})
   remove(@Payload('id',ParseIntPipe) id: number) {
-    return this.productsService.remove(id);
+    return this.productsService.remove(id).then(() => {
+      return { message: 'Product deleted successfully', id };
+    });
   }
+
+
+  @MessagePattern({cmd:'validate_product'})
+  validateProduct(@Payload() ids:number[]){
+    return this.productsService.validateProducts(ids); 
+  }
+
 }
